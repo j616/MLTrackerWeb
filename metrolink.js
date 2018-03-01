@@ -1,5 +1,10 @@
 $(function() {
-    var apiBase = "http://" + window.location.hostname + ":5000/";
+    var apiBase = window.location.hostname + ":5000/";
+    if (window.location.protocol !== "https:") {
+        apiBase = "http://" + apiBase;
+    } else {
+        apiBase = "https://" + apiBase;
+    }
 
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
