@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="index.css" rel="stylesheet">
+
+    <title>Metrolink Tracker</title>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand mb-0 h1" href="/">Metrolink Tracker</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/about.html">About<span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="alert alert-info" role="alert">
+        This website is in beta. Here be dragons! Please don't share this site yet.
+      </div>
+
+      <div class="jumbotron">
+        <h1 class="display-4">Metrolink Tracker</h1>
+        <p class="lead">Metrolink tracker uses data provided by TfGM to locate trams on the network and predict their arrival times at each station using previously observed transit times. This allows for more accurate arrival predictions of more trams at each stop than has previously been available.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Is this a TfGM or Metrolink website?</h5>
+          <p class="card-text">No. This website and its developer are in no way connected to or endorsed by Metrolink or TfGM. But we do use data provided freely by TfGM.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Why do trams sometimes disappear from your estimates?</h5>
+          <p class="card-text">Unfortunately, the data provided by TfGM isn't 100% accurate. We use the same data that is used to drive the displays on the platforms. We have to infer a lot from this data. Sometimes trams drop off Metrolink's radar. If that happens, it drops off of our data too. This also sometimes happen when we infer tram progress incorrectly from the data TfGM provides.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Why do trams sometimes appear that don't exist?</h5>
+          <p class="card-text">Again, this is because the data provided by TfGM isn't 100% accurate and can happen for a number for reasons. Firstly, it seems that Metrolink's systems sometimes detects trams twice. This happens particularly often with double trams showing up on displays for a split second as a double tram following a single tram. We try detect and correct this where possible. But where a tram is directly behind another to the same destination, we might accidentally remove a real tram. Sorry about that!</p>
+          <p class="card-text">Another case is where trams appear in the TfGM data as due but are never shown to arrive at the station. You might see trams like this remain as "Due: &lt;0.5mins" until we detect that the tram probably isn't going to turn up and remove it from our predictions.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">A load of trams just disappeared. What happened???</h5>
+          <p class="card-text">In order to clear up cases where we've inferred tram locations incorrectly, we get rid of trams that are taking too long to get to the next stop and look like false readings in our software. If there are disruptions and trams stop moving on part or all of the network for an extended period, they might hit this timeout and drop off of our lists. They should re-appear when things start moving again and they reach the next stop.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">What do you use cookies for?</h5>
+          <p class="card-text">We only use cookies to remember which station you've selected for next time and to remember if you've agreed to us using cookies. So by requiring us to display a message saying we use cookies, the UK government has actually doubled our cookie usage. Thanks UK government!</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">How are you tracking the trams?</h5>
+          <p class="card-text">TfGM makes the data that drives the displays at the tram stops available for free to developers that want to use it (Thank you, TfGM!). We use this data to estimate which stops trams are between or at.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Your estimated times are more accurate than the displays at the station. How are you doing that?!?</h5>
+          <p class="card-text">We track when each tram arrives/departs a station. We can do this to the nearest 10secs which is the update rate of the data we get from TfGM. We use this to keep a running average of dwell times at stops and transit times between stops. This running average gets us a little bit more accurate than the displays at the stops and allows our estimates to adapt to traffic or temporary speed restrictions where Metrolink's predictions don't.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Your website said a tram would go via Market St but it went via Exchange Sq. WTH???</h5>
+          <p class="card-text">Unfortunately, TfGM don't provide live data for which route trams are taking through the city. So we take an educated guess based on which destinations trams are currently heading to via each route. If trams suddenly move to the other City Crossing because of disruptions or if we don't get the data to make the right guess then we might get it wrong on the odd occasion. Sorry ☹.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Why did you make this website?</h5>
+          <p class="card-text">I change trams at Cornbrook on my daily commute. When I stand on the "outbound" platform, trams can be going to East Didsbury, Manchester Airport, Altrincham, MediaCityUK, Eccles and sometimes even Trafford Bar. But there's only 3 spaces on the display for trams. You're not able to see the next tram to all of the possible destinations. I wanted to be able to see the next few trams to each destination so I put some of my spare time into making a website that does just that.</p>
+          <p>I also get fed up of some stops saying trams were due in 4mins on the Metrolink app and stop displays then jumping strait to arriving...</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">I think I've found a bug</h5>
+          <p class="card-text">Cool! If it's not one of the known ones above, please let me know at <h1>place to file bugs</h1></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Can you add this feature I'd like?</h5>
+          <p class="card-text">Maybe. I can't guarantee it given this is something I created and maintain in my spare time. But you can always let me know what features you'd like to see at <h1>place to request features</h1></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">I'm a software dev. Can I use your API?</h5>
+          <p class="card-text">Sure! But please run your own copy on your own server. The API is available on Github at <h1>LINK</h1>. This API is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+        </div>
+      </div>
+
+      <footer class="footer p-3">
+        <div class="container">
+          <span class="text-muted">© James Sandford 2018 | Contains Transport for Greater Manchester data</span>
+        </div>
+      </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

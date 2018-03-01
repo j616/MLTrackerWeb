@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="index.css" rel="stylesheet">
+
+    <title>Metrolink Tracker</title>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand mb-0 h1" href="#">Metrolink Tracker</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/about.html">About</a>
+            </li>
+          </ul>
+          <span class="navbar-text" id="lastUpdated"></span>
+        </div>
+      </nav>
+      <div class="alert alert-info" role="alert">
+        This website is in beta. Here be dragons! Please don't share this site yet.
+      </div>
+
+      <div class="modal" tabindex="-1" role="dialog" id="cookieModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">This site uses cookies</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>
+                Like most websites, this site uses cookies. By closing this message, you
+                agree to us using cookies.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container mb-3 p-0">
+        <div class="row">
+          <div class="col-auto mr-auto">
+            <div class="btn-group">
+              <button class="btn btn-dark btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="stationDDB" value=null>
+                Select station
+              </button>
+              <div class="dropdown-menu stationDD" id="stationDD" boundary="window">
+                <a class="dropdown-item" href="#">Abraham Moss</a>
+                <a class="dropdown-item" href="#">Altrincham</a>
+                <a class="dropdown-item" href="#">Anchorage</a>
+                <a class="dropdown-item" href="#">Ashton Moss</a>
+                <a class="dropdown-item" href="#">Ashton West</a>
+                <a class="dropdown-item" href="#">Ashton-Under-Lyne</a>
+                <a class="dropdown-item" href="#">Audenshaw</a>
+                <a class="dropdown-item" href="#">Baguley</a>
+                <a class="dropdown-item" href="#">Barlow Moor Road</a>
+                <a class="dropdown-item" href="#">Benchill</a>
+                <a class="dropdown-item" href="#">Besses O’ Th’ Barn</a>
+                <a class="dropdown-item" href="#">Bowker Vale</a>
+                <a class="dropdown-item" href="#">Broadway</a>
+                <a class="dropdown-item" href="#">Brooklands</a>
+                <a class="dropdown-item" href="#">Burton Road</a>
+                <a class="dropdown-item" href="#">Bury</a>
+                <a class="dropdown-item" href="#">Cemetery Road</a>
+                <a class="dropdown-item" href="#">Central Park</a>
+                <a class="dropdown-item" href="#">Chorlton</a>
+                <a class="dropdown-item" href="#">Clayton Hall</a>
+                <a class="dropdown-item" href="#">Cornbrook</a>
+                <a class="dropdown-item" href="#">Crossacres</a>
+                <a class="dropdown-item" href="#">Crumpsall</a>
+                <a class="dropdown-item" href="#">Dane Road</a>
+                <a class="dropdown-item" href="#">Deansgate - Castlefield</a>
+                <a class="dropdown-item" href="#">Derker</a>
+                <a class="dropdown-item" href="#">Didsbury Village</a>
+                <a class="dropdown-item" href="#">Droylsden</a>
+                <a class="dropdown-item" href="#">East Didsbury</a>
+                <a class="dropdown-item" href="#">Eccles</a>
+                <a class="dropdown-item" href="#">Edge Lane</a>
+                <a class="dropdown-item" href="#">Etihad Campus</a>
+                <a class="dropdown-item" href="#">Exchange Quay</a>
+                <a class="dropdown-item" href="#">Exchange Square</a>
+                <a class="dropdown-item" href="#">Failsworth</a>
+                <a class="dropdown-item" href="#">Firswood</a>
+                <a class="dropdown-item" href="#">Freehold</a>
+                <a class="dropdown-item" href="#">Harbour City</a>
+                <a class="dropdown-item" href="#">Heaton Park</a>
+                <a class="dropdown-item" href="#">Hollinwood</a>
+                <a class="dropdown-item" href="#">Holt Town</a>
+                <a class="dropdown-item" href="#">Kingsway Business Park</a>
+                <a class="dropdown-item" href="#">Ladywell</a>
+                <a class="dropdown-item" href="#">Langworthy</a>
+                <a class="dropdown-item" href="#">Manchester Airport</a>
+                <a class="dropdown-item" href="#">Market Street</a>
+                <a class="dropdown-item" href="#">Martinscroft</a>
+                <a class="dropdown-item" href="#">MediaCityUK</a>
+                <a class="dropdown-item" href="#">Milnrow</a>
+                <a class="dropdown-item" href="#">Monsall</a>
+                <a class="dropdown-item" href="#">Moor Road</a>
+                <a class="dropdown-item" href="#">Navigation Road</a>
+                <a class="dropdown-item" href="#">New Islington</a>
+                <a class="dropdown-item" href="#">Newbold</a>
+                <a class="dropdown-item" href="#">Newhey</a>
+                <a class="dropdown-item" href="#">Newton Heath and Moston</a>
+                <a class="dropdown-item" href="#">Northern Moor</a>
+                <a class="dropdown-item" href="#">Old Trafford</a>
+                <a class="dropdown-item" href="#">Oldham Central</a>
+                <a class="dropdown-item" href="#">Oldham King Street</a>
+                <a class="dropdown-item" href="#">Oldham Mumps</a>
+                <a class="dropdown-item" href="#">Peel Hall</a>
+                <a class="dropdown-item" href="#">Piccadilly Gardens</a>
+                <a class="dropdown-item" href="#">Piccadilly</a>
+                <a class="dropdown-item" href="#">Pomona</a>
+                <a class="dropdown-item" href="#">Prestwich</a>
+                <a class="dropdown-item" href="#">Queens Road</a>
+                <a class="dropdown-item" href="#">Radcliffe</a>
+                <a class="dropdown-item" href="#">Robinswood Road</a>
+                <a class="dropdown-item" href="#">Rochdale Railway Station</a>
+                <a class="dropdown-item" href="#">Rochdale Town Centre</a>
+                <a class="dropdown-item" href="#">Roundthorn</a>
+                <a class="dropdown-item" href="#">Sale Water Park</a>
+                <a class="dropdown-item" href="#">Sale</a>
+                <a class="dropdown-item" href="#">Salford Quays</a>
+                <a class="dropdown-item" href="#">Shadowmoss</a>
+                <a class="dropdown-item" href="#">Shaw and Crompton</a>
+                <a class="dropdown-item" href="#">Shudehill</a>
+                <a class="dropdown-item" href="#">South Chadderton</a>
+                <a class="dropdown-item" href="#">St Peters Square</a>
+                <a class="dropdown-item" href="#">St Werburgh’s Road</a>
+                <a class="dropdown-item" href="#">Stretford</a>
+                <a class="dropdown-item" href="#">Timperley</a>
+                <a class="dropdown-item" href="#">Trafford Bar</a>
+                <a class="dropdown-item" href="#">Velopark</a>
+                <a class="dropdown-item" href="#">Victoria</a>
+                <a class="dropdown-item" href="#">Weaste</a>
+                <a class="dropdown-item" href="#">West Didsbury</a>
+                <a class="dropdown-item" href="#">Westwood</a>
+                <a class="dropdown-item" href="#">Whitefield</a>
+                <a class="dropdown-item" href="#">Withington</a>
+                <a class="dropdown-item" href="#">Wythenshawe Park</a>
+                <a class="dropdown-item" href="#">Wythenshawe Town Centre</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-outline-dark btn-lg" type="submit" id="updateB" disabled>Update &#8635;</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-dark" role="alert" id="ssAlert">
+        Select a station to begin
+      </div>
+
+      <div class="progress d-none" id="updateProg">
+        <div class="progress-bar bg-secondary" role="progressbar" id="updateProgBar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+
+      <table class="table table-striped table-dark d-none" id="pred">
+        <thead>
+          <tr>
+            <th scope="col">Destination</th>
+            <th scope="col">Due</th>
+            <th scope="col">Carriages</th>
+          </tr>
+        </thead>
+        <tbody id="predBody">
+        </tbody>
+      </table>
+      <table class="table table-striped table-dark d-none" id="mess">
+        <tbody id="messBody">
+          <tr>
+            <th scope="row" class="align-middle">Platform Messages</th>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <footer class="footer p-3">
+        <div class="container">
+          <span class="text-muted">© James Sandford 2018 | Contains Transport for Greater Manchester data</span>
+        </div>
+      </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="./metrolink.js"></script>
+  </body>
+</html>

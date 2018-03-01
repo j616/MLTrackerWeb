@@ -1,0 +1,18 @@
+.footer {
+  width: 100%;
+  background-color: #f5f5f5;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.stationDD {
+  overflow-y: scroll;
+  height: 60vh;
+}
+
+.progress {
+  height: 7px;
+  border-radius: initial;
+}
