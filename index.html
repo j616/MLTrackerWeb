@@ -37,9 +37,6 @@
           <span class="navbar-text" id="lastUpdated"></span>
         </div>
       </nav>
-      <div class="alert alert-info" role="alert">
-        This website is in beta. Here be dragons! Please don't share this site yet.
-      </div>
 
       <div class="modal" tabindex="-1" role="dialog" id="cookieModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -60,7 +57,7 @@
         </div>
       </div>
 
-      <div class="container mb-3 p-0">
+      <div class="container my-3 p-0">
         <div class="row">
           <div class="col-auto mr-auto">
             <div class="btn-group">
@@ -170,8 +167,9 @@
         </div>
       </div>
 
-      <div class="alert alert-dark" role="alert" id="ssAlert">
-        Select a station to begin
+      <div class="jumbotron" id="ssAlert">
+        <h1 class="display-4">Metrolink Tracker</h1>
+        <p class="lead">Metrolink Tracker uses data provided by TfGM to locate trams on the Metrolink network and predict their arrival times at each station. Select a station to begin.</p>
       </div>
 
       <div class="progress d-none" id="updateProg">
@@ -185,7 +183,7 @@
             <th scope="col">Due</th>
             <th scope="col">Carriages</th>
           </tr>
-        </thead>
+        </thead>Be
         <tbody id="predBody">
         </tbody>
       </table>
