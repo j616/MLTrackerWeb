@@ -1,10 +1,11 @@
 $(function() {
-    var apiBase = window.location.hostname + ":5000/";
-    if (window.location.protocol !== "https:") {
+    //var apiBase = window.location.hostname + ":5000/";
+    /*    if (window.location.protocol !== "https:") {
         apiBase = "http://" + apiBase;
     } else {
         apiBase = "https://" + apiBase;
-    }
+    }*/
+    var apiBase = "https://mltracker.co.uk:5000/";
 
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
@@ -397,179 +398,163 @@ $(function() {
         $("#updateProgBar").width("0%");
         $("#updateProgBar").attr("aria-valuenow", 0);
 
-        $.getJSON(apiBase + "station/" + stn + "/", function(stationData) {
+        $.getJSON(apiBase + "station/" + stn + "/?verbose=true", function(
+            stationData
+        ) {
             var platforms = stationData["platforms"];
             var current = 0;
             var predictions = {};
             var lastUpdate = 0;
             var messages = [];
 
-            $("#updateProgBar").attr("aria-valuemax", platforms.length + 1);
+            $("#updateProgBar").attr("aria-valuemax", 1);
             $("#updateProgBar").attr("aria-valuenow", 1);
-            $("#updateProgBar").width(100 / (platforms.length + 1) + "%");
+            $("#updateProgBar").width("100%");
 
-            var getNextPrediction = function() {
-                $.getJSON(
-                    apiBase + "station/" + stn + "/" + platforms[current],
-                    function(platformData) {
-                        if (
-                            lastUpdate < Date.parse(platformData["updateTime"])
-                        ) {
-                            lastUpdate = Date.parse(platformData["updateTime"]);
-                        }
-                        messages[current] = platformData["message"];
-                        curPredictions = platformData["predictions"];
-                        curHere = platformData["here"];
+            for (p in platforms) {
+                platformData = platforms[p];
+                if (lastUpdate < Date.parse(platformData["updateTime"])) {
+                    lastUpdate = Date.parse(platformData["updateTime"]);
+                }
+                messages[current] = platformData["message"];
+                curPredictions = platformData["predictions"];
+                curHere = platformData["here"];
 
-                        var updateDate = new Date(platformData["updateTime"]);
-                        /*Make sure update time is valid*/
-                        if (updateDate.getTime() > 0) {
-                            $("#lastUpdated").text(
-                                "Last Updated: " + updateDate.toUTCString()
-                            );
-                        }
+                var updateDate = new Date(platformData["updateTime"]);
+                /*Make sure update time is valid*/
+                if (updateDate.getTime() > 0) {
+                    $("#lastUpdated").text(
+                        "Last Updated: " + updateDate.toUTCString()
+                    );
+                }
 
-                        for (x in curPredictions) {
-                            curPrediction = curPredictions[x];
-                            curDest = curPrediction["dest"];
-                            curDestNoVia = curPrediction["dest"];
-                            if (curPrediction["via"] != null) {
-                                curDest =
-                                    curDest + " via " + curPrediction["via"];
-                            }
-
-                            if (curDest in predictions === false) {
-                                predictions[curDest] = [];
-                            }
-
-                            var tramPredictions = [];
-
-                            if (curPrediction["curLoc"]["status"] == "here") {
-                                tramPredictions.push({
-                                    station: curPrediction["curLoc"][
-                                        "platform"
-                                    ].split("_")[0],
-                                    predictedArriveTime: -1
-                                });
-                            }
-
-                            destFound = false;
-                            for (p in curPrediction["predictions"]) {
-                                station = p.split("_")[0];
-                                if (station == curDestNoVia) {
-                                    destFound = true;
-                                }
-                                tramPredictions.push({
-                                    station: p.split("_")[0],
-                                    predictedArriveTime: Date.parse(
-                                        curPrediction["predictions"][p]
-                                    )
-                                });
-                            }
-
-                            tramPredictions.sort(function(a, b) {
-                                return (
-                                    a.predictedArriveTime -
-                                    b.predictedArriveTime
-                                );
-                            });
-
-                            details = {
-                                predictedArriveTime: Date.parse(
-                                    curPrediction["predictedArriveTime"]
-                                ),
-                                carriages: curPrediction["carriages"],
-                                predictions: tramPredictions,
-                                warnings: []
-                            };
-
-                            if (
-                                curPrediction["curLoc"]["status"] ==
-                                "dueStartsHere"
-                            ) {
-                                details["warnings"].push("notStarted");
-                            }
-
-                            if (destFound == false) {
-                                details["warnings"].push("noDestPred");
-                            }
-
-                            predictions[curDest].push(details);
-                        }
-
-                        for (x in curHere) {
-                            tramHere = curHere[x];
-                            tramDest = tramHere["dest"];
-                            tramDestNoVia = tramHere["dest"];
-
-                            if (tramHere["via"] != null) {
-                                tramDest = tramDest + " via " + tramHere["via"];
-                            }
-
-                            if (tramDest in predictions === false) {
-                                predictions[tramDest] = [];
-                            }
-
-                            var tramPredictions = [];
-
-                            tramPredictions.push({
-                                station: stn,
-                                predictedArriveTime: -1
-                            });
-
-                            destFound = false;
-                            for (p in tramHere["predictions"]) {
-                                station = p.split("_")[0];
-                                if (station == tramDestNoVia) {
-                                    destFound = true;
-                                }
-                                tramPredictions.push({
-                                    station: station,
-                                    predictedArriveTime: Date.parse(
-                                        tramHere["predictions"][p]
-                                    )
-                                });
-                            }
-
-                            tramPredictions.sort(function(a, b) {
-                                return (
-                                    a.predictedArriveTime -
-                                    b.predictedArriveTime
-                                );
-                            });
-
-                            details = {
-                                predictedArriveTime: -1,
-                                carriages: tramHere["carriages"],
-                                predictions: tramPredictions,
-                                warnings: []
-                            };
-
-                            if (destFound == false) {
-                                details["warnings"].push("noDestPred");
-                            }
-
-                            predictions[tramDest].push(details);
-                        }
-
-                        current++;
-
-                        $("#updateProgBar").attr("aria-valuenow", current + 1);
-                        $("#updateProgBar").width(
-                            100 * (current + 1) / (platforms.length + 1) + "%"
-                        );
-
-                        if (current < platforms.length) {
-                            getNextPrediction();
-                        } else {
-                            displayTrams(predictions, lastUpdate);
-                            displayMessages(messages);
-                        }
+                for (x in curPredictions) {
+                    curPrediction = curPredictions[x];
+                    curDest = curPrediction["dest"];
+                    curDestNoVia = curPrediction["dest"];
+                    if (curPrediction["via"] != null) {
+                        curDest = curDest + " via " + curPrediction["via"];
                     }
-                );
-            };
 
-            getNextPrediction();
+                    if (curDest in predictions === false) {
+                        predictions[curDest] = [];
+                    }
+
+                    var tramPredictions = [];
+
+                    if (curPrediction["curLoc"]["status"] == "here") {
+                        tramPredictions.push({
+                            station: curPrediction["curLoc"]["platform"].split(
+                                "_"
+                            )[0],
+                            predictedArriveTime: -1
+                        });
+                    }
+
+                    destFound = false;
+                    for (p in curPrediction["predictions"]) {
+                        station = p.split("_")[0];
+                        if (station == curDestNoVia) {
+                            destFound = true;
+                        }
+                        tramPredictions.push({
+                            station: p.split("_")[0],
+                            predictedArriveTime: Date.parse(
+                                curPrediction["predictions"][p]
+                            )
+                        });
+                    }
+
+                    tramPredictions.sort(function(a, b) {
+                        return a.predictedArriveTime - b.predictedArriveTime;
+                    });
+
+                    details = {
+                        predictedArriveTime: Date.parse(
+                            curPrediction["predictedArriveTime"]
+                        ),
+                        carriages: curPrediction["carriages"],
+                        predictions: tramPredictions,
+                        warnings: []
+                    };
+
+                    if (curPrediction["curLoc"]["status"] == "dueStartsHere") {
+                        details["warnings"].push("notStarted");
+                    }
+
+                    if (destFound == false) {
+                        details["warnings"].push("noDestPred");
+                    }
+
+                    predictions[curDest].push(details);
+                }
+
+                for (x in curHere) {
+                    tramHere = curHere[x];
+                    tramDest = tramHere["dest"];
+                    tramDestNoVia = tramHere["dest"];
+
+                    if (tramHere["via"] != null) {
+                        tramDest = tramDest + " via " + tramHere["via"];
+                    }
+
+                    if (tramDest in predictions === false) {
+                        predictions[tramDest] = [];
+                    }
+
+                    var tramPredictions = [];
+
+                    tramPredictions.push({
+                        station: stn,
+                        predictedArriveTime: -1
+                    });
+
+                    destFound = false;
+                    for (p in tramHere["predictions"]) {
+                        station = p.split("_")[0];
+                        if (station == tramDestNoVia) {
+                            destFound = true;
+                        }
+                        tramPredictions.push({
+                            station: station,
+                            predictedArriveTime: Date.parse(
+                                tramHere["predictions"][p]
+                            )
+                        });
+                    }
+
+                    tramPredictions.sort(function(a, b) {
+                        return a.predictedArriveTime - b.predictedArriveTime;
+                    });
+
+                    details = {
+                        predictedArriveTime: -1,
+                        carriages: tramHere["carriages"],
+                        predictions: tramPredictions,
+                        warnings: []
+                    };
+
+                    if (destFound == false) {
+                        details["warnings"].push("noDestPred");
+                    }
+
+                    predictions[tramDest].push(details);
+                }
+
+                current++;
+
+                $("#updateProgBar").attr("aria-valuenow", current + 1);
+                $("#updateProgBar").width(
+                    100 * (current + 1) / (platforms.length + 1) + "%"
+                );
+
+                if (current < platforms.length) {
+                    getNextPrediction();
+                } else {
+                    displayTrams(predictions, lastUpdate);
+                    displayMessages(messages);
+                }
+            }
         });
     };
 
