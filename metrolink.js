@@ -1,11 +1,10 @@
 $(function() {
-    //var apiBase = window.location.hostname + ":5000/";
-    /*    if (window.location.protocol !== "https:") {
+    var apiBase = window.location.hostname + ":5000/";
+    if (window.location.protocol !== "https:") {
         apiBase = "http://" + apiBase;
     } else {
         apiBase = "https://" + apiBase;
-    }*/
-    var apiBase = "https://mltracker.co.uk:5000/";
+    }
 
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
