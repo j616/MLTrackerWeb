@@ -546,14 +546,9 @@ $(function() {
                 $("#updateProgBar").width(
                     100 * (current + 1) / (platforms.length + 1) + "%"
                 );
-
-                if (current < platforms.length) {
-                    getNextPrediction();
-                } else {
-                    displayTrams(predictions, lastUpdate);
-                    displayMessages(messages);
-                }
             }
+            displayTrams(predictions, lastUpdate);
+            displayMessages(messages);
         });
     };
 
