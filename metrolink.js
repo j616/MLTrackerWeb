@@ -1,5 +1,5 @@
 $(function() {
-    var apiBase = window.location.hostname + ":5000/";
+    var apiBase = "api." + window.location.hostname + ":5000/";
     if (window.location.protocol !== "https:") {
         apiBase = "http://" + apiBase;
     } else {
