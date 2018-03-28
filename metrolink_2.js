@@ -423,7 +423,7 @@ $(function() {
                 /*Make sure update time is valid*/
                 if (updateDate.getTime() > 0) {
                     $("#lastUpdated").text(
-                        "Data Updated: " + updateDate.toUTCString()
+                        "Data Updated: " + updateDate.toLocaleString()
                     );
                 }
 
