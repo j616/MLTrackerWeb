@@ -561,8 +561,8 @@ $(function() {
     });
 
     $("#stationDD").on("click", "a", function() {
-        updateTrams($(this).text());
         setCookie("station", $(this).text(), 365);
+        updateTrams($(this).text());
     });
 
     $("#updateB").on("click", function() {
@@ -571,9 +571,10 @@ $(function() {
         }
     });
 
-    var cookieStation = getCookie("station");
-
-    if (cookieStation != "") {
-        updateTrams(cookieStation);
+    if (location.hash !== "") {
+        updateTrams(decodeURIComponent(location.hash.substring(1)));
+    } else if (getCookie("station") !== "") {
+        location.hash = "#" + getCookie("station");
+        updateTrams(getCookie("station"));
     }
 });
