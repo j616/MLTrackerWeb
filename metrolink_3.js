@@ -156,7 +156,7 @@ $(function() {
                 warningsTbl.push(
                     $("<tr/>").append(
                         $("<td/>").text(
-                            "This tram hasn't left it's starting station yet. \
+                            "This tram hasn't left its starting station yet. \
                             Predictions may be less accurate."
                         )
                     )
