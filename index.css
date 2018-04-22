@@ -20,3 +20,37 @@
 	height: 7px;
 	border-radius: initial;
 }
+
+.tr0 {
+	border: 0 !important;
+}
+
+.td0 {
+	padding: 0 !important;
+	border: 0 !important;
+}
+
+.table-bordered tbody tr {
+	border: 1px solid gray;
+	border-color: gray;
+}
+
+.table-bordered tbody tr td {
+	border: 1px solid gray;
+	border-color: gray;
+}
+
+.table-bordered tbody tr th {
+	border: 1px solid gray;
+	border-color: gray;
+}
+
+.table-bordered thead tr {
+	border: 1px solid gray;
+	border-color: gray;
+}
+
+.table-bordered thead tr th {
+	border: 1px solid gray;
+	border-color: gray;
+}

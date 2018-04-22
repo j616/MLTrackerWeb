@@ -6,6 +6,8 @@ $(function() {
         apiBase = "https://" + apiBase;
     }
 
+    apiBase = "http://localhost:5000/";
+
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
         d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
@@ -339,7 +341,16 @@ $(function() {
                 ]);
             } else {
                 $("#predBody").append([
-                    $("<tr/>").append([$("<td/>"), $("<td/>")])
+                    $("<tr/>", {
+                        class: "tr0"
+                    }).append([
+                        $("<td/>", {
+                            class: "td0"
+                        }),
+                        $("<td/>", {
+                            class: "td0"
+                        })
+                    ])
                 ]);
             }
         }
