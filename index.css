@@ -21,6 +21,11 @@
 	border-radius: initial;
 }
 
+.tramTimeModalA {
+	color: #000000 !important;
+	text-decoration: none;
+}
+
 .tr0 {
 	border: 0 !important;
 }

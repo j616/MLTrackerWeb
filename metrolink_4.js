@@ -6,8 +6,6 @@ $(function() {
         apiBase = "https://" + apiBase;
     }
 
-    apiBase = "http://localhost:5000/";
-
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
         d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
@@ -99,11 +97,11 @@ $(function() {
 
         $("body").prepend([
             $("<div/>", {
-                class: "modal fade text-dark tramTimeModal",
+                class: "modal fade text-dark tramDestModal",
                 id: dest + "Modal",
                 tabindex: "-1",
                 role: "dialog",
-                "aria-labelledby": "exampleModalLabel",
+                "aria-labelledby": "tramDestModel",
                 "aria-hidden": "true"
             }).append([
                 $("<div/>", {
@@ -192,7 +190,12 @@ $(function() {
 
         for (x in times) {
             var pred = times[x];
-            var station = $("<td/>").text(pred["station"]);
+            var station = $("<td/>").append([
+                $("<a/>", {
+                    href: "#" + pred["station"],
+                    class: "tramTimeModalA"
+                }).text(pred["station"])
+            ]);
             var arrival = $("<td/>").text(
                 getTramDueStr(pred["predictedArriveTime"], lastUpdate)
             );
@@ -219,14 +222,15 @@ $(function() {
             $("<tbody/>").append(predTbl)
         ]);
 
+        var modalID = dest + millis + "Modal";
         $("body").prepend([
             $("<div/>", {
                 class: "modal fade text-dark tramTimeModal",
-                id: dest + millis + "Modal",
+                id: modalID,
                 tabindex: "-1",
                 role: "dialog",
-                "aria-labelledby": "exampleModalLabel",
-                "aria-hidden": "true"
+                "aria-labelledby": modalID,
+                "aria-hidden": true
             }).append([
                 $("<div/>", {
                     class: "modal-dialog",
@@ -259,6 +263,14 @@ $(function() {
                 ])
             ])
         ]);
+
+        $(".tramTimeModalA").on("click", function() {
+            setCookie("station", $(this).text(), 365);
+            updateTrams($(this).text());
+            $("#" + modalID).modal("hide");
+            $("body").removeClass("modal-open");
+            $(".modal-backdrop").remove();
+        });
     };
 
     var displayTrams = function(predictions, lastUpdate) {
@@ -289,6 +301,7 @@ $(function() {
 
         $("#predBody").empty();
         $(".tramTimeModal").remove();
+        $(".tramDestModal").remove();
         predictions = Object.keys(predictions)
             .sort()
             .reduce((r, k) => ((r[k] = predictions[k]), r), {});
