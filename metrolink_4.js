@@ -408,6 +408,60 @@ $(function() {
         $("#updateProgBar").width("0%");
         $("#updateProgBar").attr("aria-valuenow", 0);
 
+        if (getCookie("destTip") == "") {
+            $("#alerts").append([
+                $("<div/>", {
+                    class: "alert alert-info alert-dismissible fade show",
+                    role: "alert",
+                    id: "destTip"
+                }).append([
+                    $("<strong/>").text("Tip!"),
+                    " Click a destination to see more predictions.",
+                    $("<button/>", {
+                        type: "button",
+                        class: "close",
+                        "data-dismiss": "alert",
+                        "aria-label": "Close"
+                    }).append([
+                        $("<span/>", {
+                            "aria-hidden": true
+                        }).html("&times;")
+                    ])
+                ])
+            ]);
+
+            $("#destTip").on("closed.bs.alert", function(e) {
+                setCookie("destTip", true, 365);
+            });
+        }
+
+        if (getCookie("timeTip") == "") {
+            $("#alerts").append([
+                $("<div/>", {
+                    class: "alert alert-info alert-dismissible fade show",
+                    role: "alert",
+                    id: "timeTip"
+                }).append([
+                    $("<strong/>").text("Tip!"),
+                    " Click a tram's time to see arrival times along its route.",
+                    $("<button/>", {
+                        type: "button",
+                        class: "close",
+                        "data-dismiss": "alert",
+                        "aria-label": "Close"
+                    }).append([
+                        $("<span/>", {
+                            "aria-hidden": true
+                        }).html("&times;")
+                    ])
+                ])
+            ]);
+
+            $("#timeTip").on("closed.bs.alert", function(e) {
+                setCookie("timeTip", true, 365);
+            });
+        }
+
         $.getJSON(apiBase + "station/" + stn + "/?verbose=true", function(
             stationData
         ) {
