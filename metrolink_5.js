@@ -654,6 +654,12 @@ $(function() {
         }
     });
 
+    window.addEventListener("popstate", function(e) {
+        if (location.hash !== "") {
+            updateTrams(decodeURIComponent(location.hash.substring(1)));
+        }
+    });
+
     if (location.hash !== "") {
         updateTrams(decodeURIComponent(location.hash.substring(1)));
     } else if (getCookie("station") !== "") {
