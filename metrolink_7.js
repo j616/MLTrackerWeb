@@ -416,7 +416,7 @@ $(function() {
         var recentStasCookie = getCookie("recentStas");
         var recentStas = [];
         if (recentStasCookie != "") {
-            var recentStas = JSON.parse(recentStasCookie);
+            var recentStas = JSON.parse(recentStasCookie).reverse();
         } else {
             return;
         }
