@@ -412,7 +412,60 @@ $(function() {
         }
     };
 
+    var displayRecents = function() {
+        var recentStasCookie = getCookie("recentStas");
+        var recentStas = [];
+        if (recentStasCookie != "") {
+            var recentStas = JSON.parse(recentStasCookie);
+        } else {
+            return;
+        }
+
+        $(".recentStas").remove();
+
+        $("#stationDD").prepend([
+            $("<div/>", { class: "dropdown-divider recentStas" }),
+            $("<h6/>", {
+                class: "dropdown-header recentStas"
+            }).text("Stations")
+        ]);
+
+        for (x = 0; x < recentStas.length; x++) {
+            $("#stationDD").prepend([
+                $("<a/>", {
+                    class: "dropdown-item recentStas",
+                    href: "#" + recentStas[x]
+                }).text(recentStas[x])
+            ]);
+        }
+
+        $("#stationDD").prepend([
+            $("<h6/>", {
+                class: "dropdown-header recentStas"
+            }).text("Recent Stations")
+        ]);
+    };
+
+    var updateRecents = function(stn) {
+        var recentStasCookie = getCookie("recentStas");
+        var recentStas = [];
+        if (recentStasCookie != "") {
+            var recentStas = JSON.parse(recentStasCookie);
+        }
+
+        if (recentStas.indexOf(stn) > -1) {
+            recentStas.splice(recentStas.indexOf(stn), 1);
+        }
+
+        recentStas.unshift(stn);
+        recentStas = recentStas.splice(0, 7);
+
+        setCookie("recentStas", JSON.stringify(recentStas), 365);
+        displayRecents();
+    };
+
     var updateTrams = function(stn) {
+        updateRecents(stn);
         $("#stationDDB").text(stn);
         $("#stationDDB").val(stn);
         $("#updateB").removeAttr("disabled");
@@ -665,5 +718,7 @@ $(function() {
     } else if (getCookie("station") !== "") {
         location.hash = "#" + getCookie("station");
         updateTrams(getCookie("station"));
+    } else {
+        displayRecents();
     }
 });
