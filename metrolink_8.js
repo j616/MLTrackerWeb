@@ -680,12 +680,37 @@ $(function() {
 
                 $("#updateProgBar").attr("aria-valuenow", current + 1);
                 $("#updateProgBar").width(
-                    100 * (current + 1) / (platforms.length + 1) + "%"
+                    (100 * (current + 1)) / (platforms.length + 1) + "%"
                 );
             }
             displayTrams(predictions, lastUpdate);
             displayMessages(messages);
         });
+    };
+
+    var fixStPeters = function() {
+        /*St Peter's recently gained an apostrophe in the TfGM API. We need to update this in cookies*/
+        var recentStasCookie = getCookie("recentStas");
+        var recentStas = [];
+        var oldStPeters = "St Peters Square";
+        var newStPeters = "St Peter's Square";
+        if (recentStasCookie != "") {
+            var recentStas = JSON.parse(recentStasCookie);
+        }
+
+        if (recentStas.indexOf(oldStPeters) > -1) {
+            recentStas.splice(recentStas.indexOf(oldStPeters), 1, newStPeters);
+
+            /*Remove duplicates (if people have both versions from the transition)*/
+            recentStas = Array.from(new Set(recentStas));
+
+            setCookie("recentStas", JSON.stringify(recentStas), 365);
+        }
+
+        if (decodeURIComponent(location.hash.substring(1)) == oldStPeters) {
+            location.hash = "#" + newStPeters;
+            updateTrams(newStPeters);
+        }
     };
 
     if (getCookie("cookiesAccepted") == "") {
@@ -706,6 +731,8 @@ $(function() {
             updateTrams($("#stationDDB").val());
         }
     });
+
+    fixStPeters();
 
     window.addEventListener("popstate", function(e) {
         if (location.hash !== "") {
